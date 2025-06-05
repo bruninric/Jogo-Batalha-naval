@@ -1,0 +1,156 @@
+#include <stdio.h>
+
+// Constantes definidas pelas instruções das imagens
+#define TAMANHO_LINHA 10
+#define TAMANHO_COLUNA 10
+#define TAMANHO_NAVIO 3
+#define VALOR_AGUA 0
+#define VALOR_NAVIO 3
+
+// Protótipos das funções
+void inicializarTabuleiro(int tabuleiro[TAMANHO_LINHA][TAMANHO_COLUNA]);
+void exibirTabuleiro(int tabuleiro[TAMANHO_LINHA][TAMANHO_COLUNA]);
+int posicionarNavio(int tabuleiro[TAMANHO_LINHA][TAMANHO_COLUNA], 
+                     const int navioModelo[], int tamanhoNavio, 
+                     int linhaInicial, int colunaInicial, char orientacao);
+
+int main() {
+    int tabuleiro[TAMANHO_LINHA][TAMANHO_COLUNA];
+    
+    // "Declare e inicialize dois vetores (arrays unidimensionais) para representar os navios."
+    // Este é o "modelo" do navio, que contém o valor a ser colocado no tabuleiro.
+    int navioModelo[TAMANHO_NAVIO];
+    for (int i = 0; i < TAMANHO_NAVIO; i++) {
+        navioModelo[i] = VALOR_NAVIO; 
+    }
+
+    // 1. "Represente o Tabuleiro: Inicialize todas as posições com o valor 0"
+    inicializarTabuleiro(tabuleiro);
+
+    printf("Iniciando o posicionamento dos navios...\n\n");
+
+    // 2. "Posicione os Navios"
+    // "As coordenadas dos navios são definidas diretamente no código"
+    // "Um navio será posicionado horizontalmente e o outro verticalmente."
+
+    // Navio 1: Horizontal (tamanho 3)
+    // Coordenadas escolhidas: linha 2, coluna 2. Ocupará (2,2), (2,3), (2,4)
+    // "Você deverá escolher as coordenadas iniciais de cada navio e garantir que eles
+    // estejam completamente dentro dos limites do tabuleiro e não se sobreponham."
+    // "O programa deve validar se as coordenadas e o tamanho dos navios são válidos dentro dos limites"
+    printf("Tentando posicionar Navio 1 (Horizontal) na linha 2, coluna 2...\n");
+    if (!posicionarNavio(tabuleiro, navioModelo, TAMANHO_NAVIO, 2, 2, 'H')) {
+        printf("ERRO: Falha ao posicionar o Navio 1 (Horizontal).\n");
+        return 1; // Indica erro ao programa
+    }
+    printf("Navio 1 posicionado com sucesso.\n\n");
+
+    // Navio 2: Vertical (tamanho 3)
+    // Coordenadas escolhidas: linha 5, coluna 5. Ocupará (5,5), (6,5), (7,5)
+    // Estas coordenadas não sobrepõem o Navio 1 e estão dentro dos limites.
+    // "A validação de sobreposição de navios pode ser simplificada."
+    // A simplificação aqui é que escolhemos coordenadas que sabemos que não se sobrepõem.
+    printf("Tentando posicionar Navio 2 (Vertical) na linha 5, coluna 5...\n");
+    if (!posicionarNavio(tabuleiro, navioModelo, TAMANHO_NAVIO, 5, 5, 'V')) {
+        printf("ERRO: Falha ao posicionar o Navio 2 (Vertical).\n");
+        return 1; // Indica erro ao programa
+    }
+    printf("Navio 2 posicionado com sucesso.\n");
+    
+    // 3. "Exiba o Tabuleiro"
+    // "Mostre a matriz completa, com 0s representando água e 3s representando as partes dos navios."
+    // "A saída deve ser clara e organizada"
+    exibirTabuleiro(tabuleiro);
+
+    return 0; // Sucesso
+}
+
+/**
+ * @brief Inicializa o tabuleiro com o valor padrão para água.
+ * * @param tabuleiro A matriz bidimensional representando o tabuleiro.
+ */
+void inicializarTabuleiro(int tabuleiro[TAMANHO_LINHA][TAMANHO_COLUNA]) {
+    for (int i = 0; i < TAMANHO_LINHA; i++) {
+        for (int j = 0; j < TAMANHO_COLUNA; j++) {
+            tabuleiro[i][j] = VALOR_AGUA;
+        }
+    }
+}
+
+/**
+ * @brief Exibe o estado atual do tabuleiro no console.
+ * * @param tabuleiro A matriz bidimensional representando o tabuleiro.
+ */
+void exibirTabuleiro(int tabuleiro[TAMANHO_LINHA][TAMANHO_COLUNA]) {
+    printf("\n## Tabuleiro Batalha Naval ##\n");
+    // Imprime cabeçalho das colunas para melhor visualização
+    printf("  "); // Espaço para o índice da linha
+    for (int j = 0; j < TAMANHO_COLUNA; j++) {
+        printf("%d ", j);
+    }
+    printf("\n");
+
+    for (int i = 0; i < TAMANHO_LINHA; i++) {
+        printf("%d ", i); // Imprime índice da linha
+        for (int j = 0; j < TAMANHO_COLUNA; j++) {
+            printf("%d ", tabuleiro[i][j]); // "Imprima um espaço ou outro caractere separador"
+        }
+        printf("\n");
+    }
+    printf("Legenda: %d = Água, %d = Navio\n", VALOR_AGUA, VALOR_NAVIO);
+}
+
+/**
+ * @brief Posiciona um navio no tabuleiro.
+ * * Valida se o navio cabe nos limites do tabuleiro.
+ * A validação de sobreposição é considerada "simplificada" neste contexto,
+ * significando que as coordenadas fornecidas devem ser pré-validadas (por escolha)
+ * para não haver sobreposição. A função não implementa uma checagem de sobreposição ativa,
+ * confiando na escolha correta das coordenadas na chamada.
+ * * @param tabuleiro A matriz do tabuleiro.
+ * @param navioModelo O array unidimensional que representa o navio (contém VALOR_NAVIO).
+ * @param tamanhoNavio O tamanho do navio.
+ * @param linhaInicial A linha inicial para posicionar o navio.
+ * @param colunaInicial A coluna inicial para posicionar o navio.
+ * @param orientacao 'H' para horizontal, 'V' para vertical.
+ * @return int Retorna 1 (true) se o posicionamento foi bem-sucedido (dentro dos limites), 
+ * 0 (false) caso contrário.
+ */
+int posicionarNavio(int tabuleiro[TAMANHO_LINHA][TAMANHO_COLUNA], 
+                     const int navioModelo[], int tamanhoNavio, 
+                     int linhaInicial, int colunaInicial, char orientacao) {
+
+    // Validação das coordenadas e tamanho DENTRO DOS LIMITES do tabuleiro
+    if (orientacao == 'H' || orientacao == 'h') { // Navio Horizontal
+        if (linhaInicial < 0 || linhaInicial >= TAMANHO_LINHA || 
+            colunaInicial < 0 || (colunaInicial + tamanhoNavio) > TAMANHO_COLUNA) {
+            printf("LOG: Coordenadas do navio horizontal (%d,%d) com tamanho %d fora dos limites.\n", linhaInicial, colunaInicial, tamanhoNavio);
+            return 0; // Falha: Fora dos limites
+        }
+        // Posicionar o navio copiando os valores do navioModelo
+        // "O posicionamento do navio pode ser feito copiando o valor 3 de cada posição 
+        //  do vetor do navio para as posições correspondentes na matriz do tabuleiro"
+        for (int i = 0; i < tamanhoNavio; i++) {
+            // "O programa deve garantir que os navios não se sobreponham."
+            // "A validação de sobreposição de navios pode ser simplificada."
+            // A simplificação é que não há uma checagem *aqui*. A garantia vem da
+            // escolha cuidadosa de coordenadas na função main().
+            // Se uma checagem fosse feita aqui, seria: if (tabuleiro[linhaInicial][colunaInicial + i] == VALOR_NAVIO) return 0;
+            tabuleiro[linhaInicial][colunaInicial + i] = navioModelo[i];
+        }
+    } else if (orientacao == 'V' || orientacao == 'v') { // Navio Vertical
+        if (colunaInicial < 0 || colunaInicial >= TAMANHO_COLUNA ||
+            linhaInicial < 0 || (linhaInicial + tamanhoNavio) > TAMANHO_LINHA) {
+            printf("LOG: Coordenadas do navio vertical (%d,%d) com tamanho %d fora dos limites.\n", linhaInicial, colunaInicial, tamanhoNavio);
+            return 0; // Falha: Fora dos limites
+        }
+        // Posicionar o navio
+        for (int i = 0; i < tamanhoNavio; i++) {
+            tabuleiro[linhaInicial + i][colunaInicial] = navioModelo[i];
+        }
+    } else {
+        printf("LOG: Orientação inválida ('%c'). Use 'H' ou 'V'.\n", orientacao);
+        return 0; // Falha: Orientação desconhecida
+    }
+    return 1; // Sucesso no posicionamento
+}
