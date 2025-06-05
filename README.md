@@ -1,6 +1,14 @@
 # Jogo Batalha naval
 
+Este repositório contém o seguinte arquivo:
+
+- Jogo Batalha naval
+
 ## Descrição
+
+Atividade relacionada ao desafio **Super Trunfo**.
+
+**O trabalho contido neste repositório integra o desenvolvimento do TCC.**
 
 Este programa em C simula a fase inicial de preparação de um jogo de Batalha Naval. Ele inicializa um tabuleiro bidimensional, posiciona dois navios de tamanho fixo (um horizontalmente e outro verticalmente) em coordenadas pré-definidas e, em seguida, exibe o tabuleiro resultante. O foco está na representação do tabuleiro e na lógica básica de posicionamento e validação de limites.
 
